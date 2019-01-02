@@ -707,7 +707,7 @@
     CGFloat inset = 0.0f;
     if (iosMajorVersion() >= 11 && safeAreaInset.bottom > FLT_EPSILON)
         inset = safeAreaInset.bottom;
-
+    
     bool landscape = !TGIsPad() && iosMajorVersion() >= 11 && UIInterfaceOrientationIsLandscape(orientation);
     _customTabBar = [[TGTabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - [TGTabBar tabBarHeight:landscape] - inset, self.view.frame.size.width, [TGTabBar tabBarHeight:landscape] + inset) presentation:_presentation];
     _customTabBar.safeAreaInset = safeAreaInset;

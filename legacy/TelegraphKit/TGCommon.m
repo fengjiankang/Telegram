@@ -280,11 +280,14 @@ TGLocalization *currentNativeLocalization() {
     pthread_mutex_unlock(&_currentLocalizationMutex);
     if (value == nil) {
         NSData *data = [NSData dataWithContentsOfFile:currentNativeLocalizationPath()];
-        if (data != nil) {
-            value = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        }
+//        if (data != nil) {
+//            value = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//            TGLog(@"disk's code is %@", value.code);
+//        }
         if (value == nil) {
-            NSString *nativeLanguage = @"en";
+            // here set the default language is the chinese
+            NSString *nativeLanguage = @"zh-Hans";
+//            NSString *nativeLanguage = @"en";
             NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
             if ([bundleIdentifier isEqualToString:@"co.one.Teleapp"]) {
                 nativeLanguage = @"ru";
@@ -346,6 +349,12 @@ TGLocalization *effectiveLocalization() {
 }
 
 void setCurrentNativeLocalization(TGLocalization *localization, bool switchIfCustom) {
+    
+    // here can only achieve the simply chinese, will be optimized in the soon futture
+    TGLog(@"location is %@", localization.code);
+    return;
+//    if (!localization) return;
+//    if (![localization.code isEqualToString:@"zh-Hans"]) return;
     pthread_mutex_lock(&_currentLocalizationMutex);
     _safeCurrentNativeLocalization = localization;
     pthread_mutex_unlock(&_currentLocalizationMutex);
@@ -547,3 +556,75 @@ NSArray *TGGetPackedLogs()
     
     return resultFiles;
 }
+
+
+#pragma mark -- 自定义本地化TGLocalized
+//NSString * TGLocalizedCustom(NSString *s){
+//
+//    static NSString * untranslatedString = nil;
+//    static dispatch_once_t onceToken1;
+//    dispatch_once(&onceToken1, ^{
+//
+//        untranslatedString = [[NSString alloc] initWithFormat:@"UNTRANSLATED_%x", (int)arc4random()];
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:legacyCustomLocalizationBundlePath()])
+//            customLocalizationBundle = [NSBundle bundleWithPath:legacyCustomLocalizationBundlePath()];
+//    });
+//    if (customLocalizationBundle != nil){
+//
+//        NSString *string = [customLocalizationBundle localizedStringForKey:s value:untranslatedString table:nil];
+//        if (string != nil && ![string isEqualToString:untranslatedString])
+//            return string;
+//    }
+//    static NSBundle * localizationBundle = nil;
+//    static NSBundle * fallbackBundle     = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//
+//        fallbackBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]];
+//        NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+//        if ([language isEqualToString:@"gl"] || [language isEqualToString:@"eu"]) {
+//
+//            language = @"es";
+//        }
+//        if (![[[NSBundle mainBundle] localizations] containsObject:language]){
+//
+//            localizationBundle = fallbackBundle;
+//            if ([language rangeOfString:@"-"].location != NSNotFound){
+//
+//                //******  通过下面的判断，让它支持中文 ************/
+//                //*******************************************/
+//                NSString *languageWithoutRegion;
+//                if ([language isEqualToString:@"zh-Hans-CN"]) {
+//
+//                    languageWithoutRegion = @"zh-Hans";
+//                }else{
+//
+//                    languageWithoutRegion = [language substringToIndex:[language rangeOfString:@"-"].location];
+//                }
+//                for (NSString * localization in [[NSBundle mainBundle] localizations]){
+//
+//                    if ([languageWithoutRegion isEqualToString:localization]){
+//
+//                        NSBundle *candidateBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:localization ofType:@"lproj"]];
+//                        if (candidateBundle != nil)
+//
+//                            localizationBundle = candidateBundle;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        else
+//            localizationBundle = [NSBundle mainBundle];
+//    });
+//
+//    NSString *string = [localizationBundle localizedStringForKey:s value:untranslatedString table:nil];
+//    if (string != nil && ![string isEqualToString:untranslatedString])
+//        return string;
+//    if (localizationBundle != fallbackBundle){
+//        NSString *string = [fallbackBundle localizedStringForKey:s value:untranslatedString table:nil];
+//        if (string != nil && ![string isEqualToString:untranslatedString])
+//            return string;
+//    }
+//    return s;
+//}

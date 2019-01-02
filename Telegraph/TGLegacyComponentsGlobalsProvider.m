@@ -60,6 +60,7 @@ static __strong NSTimer *userInteractionEnableTimer = nil;
         NSString *str2 = @"A`qVhmcnv";
         
         selector = NSSelectorFromString([[NSString alloc] initWithFormat:@"%@%@", TGEncodeText(str1, 1), TGEncodeText(str2, 1)]);
+        NSLog(@"encodeText is %@", TGEncodeText(str1, 1));
     });
     
     if ([[UIApplication sharedApplication] respondsToSelector:selector]) {
@@ -78,8 +79,10 @@ static __strong NSTimer *userInteractionEnableTimer = nil;
     dispatch_once(&onceToken, ^
     {
         if (iosMajorVersion() >= 9) {
+            // UIRemoteKeyboardWindow
             keyboardWindowClass = NSClassFromString(TGEncodeText(@"VJSfnpufLfzcpbseXjoepx", -1));
         } else {
+            // UITextEffectsWindow
             keyboardWindowClass = NSClassFromString(TGEncodeText(@"VJUfyuFggfdutXjoepx", -1));
         }
     });

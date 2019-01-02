@@ -17,6 +17,7 @@
 
 - (instancetype)initWithTitle:(NSString *)title localizedTitle:(NSString *)localizedTitle code:(NSString *)code {
     self = [super init];
+    TGLog(@"code is %@", code);
     if (self != nil) {
         _title = title;
         _localizedTitle = localizedTitle;
@@ -59,6 +60,7 @@
 
 + (SSignal *)suggestedLocalization {
     return [[[TGTelegramNetworking instance] requestSignal:[[TLRPChelp_getConfig$help_getConfig alloc] init]] mapToSignal:^SSignal *(TLConfig *result) {
+        TGLog(@"suggested_lang_code is %@", result.suggested_lang_code);
         if (result.suggested_lang_code.length != 0 && ![result.suggested_lang_code isEqual:currentNativeLocalization().code]) {
             return [self suggestedLocalizationData:result.suggested_lang_code];
         } else {
@@ -205,6 +207,7 @@
 + (SSignal *)pollLocalization {
     TLRPClangpack_getDifference$langpack_getDifference *getDifference = [[TLRPClangpack_getDifference$langpack_getDifference alloc] init];
     TGLocalization *current = currentNativeLocalization();
+    TGLog(@"current is %@", current.code);
     getDifference.from_version = current.version;
     return [[[TGTelegramNetworking instance] requestSignal:getDifference] onNext:^(TLLangPackDifference *next) {
         NSMutableDictionary<NSString *, NSString *> *dict = [[NSMutableDictionary alloc] init];
@@ -237,6 +240,7 @@
         }
         TGDispatchOnMainThread(^{
             TGLocalization *currentLocalization = [current mergedWith:dict version:next.version];
+            TGLog(@"currentLocalization is %@", currentLocalization.code);
             setCurrentNativeLocalization(currentLocalization, false);
             [TGAppDelegateInstance resetLocalization];
         });

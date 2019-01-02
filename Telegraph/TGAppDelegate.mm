@@ -1,6 +1,6 @@
 #import "TGAppDelegate.h"
 
-#import "../../config.h"
+#import "../config.h"
 #import <LegacyComponents/LegacyComponents.h>
 
 #import "TGLegacyComponentsGlobalsProvider.h"
@@ -391,6 +391,7 @@ static unsigned int overrideIndexAbove(__unused id self, __unused SEL _cmd)
             [UIView appearance].semanticContentAttribute = UISemanticContentAttributeForceLeftToRight;
         }
     }
+    
     [LegacyComponentsGlobals setProvider:[[TGLegacyComponentsGlobalsProvider alloc] init]];
     [TGViewController setDefaultContext:[TGLegacyComponentsContext shared]];
     [TGNavigationBar setMusicPlayerProvider:[[TGNavigationBarMusicPlayerProvider alloc] init]];
@@ -402,7 +403,9 @@ static unsigned int overrideIndexAbove(__unused id self, __unused SEL _cmd)
     
     [TGAppDelegate movePathsToContainer];
     
+    // simutalor example is `/Users/taylerandy/Library/Developer/CoreSimulator/Devices/C593E4DF-AB45-4B54-8BE6-EA551D54E90B/data/Containers/Shared/AppGroup/921455E9-F1D2-434B-A9CC-DEC694413885/Documents`
     NSString *documentsDirectory = [TGAppDelegate documentsPath];
+    
     [[NSURL fileURLWithPath:documentsDirectory] setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
     
     [TGMessage registerMediaAttachmentParser:TGActionMediaAttachmentType parser:[[TGActionMediaAttachment alloc] init]];
@@ -429,10 +432,12 @@ static unsigned int overrideIndexAbove(__unused id self, __unused SEL _cmd)
     
     [TGDatabase setPasswordRequiredBlock:^TGDatabasePasswordCheckResultBlock (void (^verifyBlock)(NSString *), bool simple)
     {
+        TGLog(@"simple is %d", simple);
         TGDispatchOnMainThread(^
         {
             if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
                 [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+            NSLog(@"_passcodeWidow is %@", _passcodeWindow);
             if (_passcodeWindow == nil)
             {
                 CGRect passcodeFrame = [UIScreen mainScreen].bounds;

@@ -116,7 +116,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>70338</string>
+	<string>70379</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption </key>
@@ -159,27 +159,27 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need this so that you can take and share photos and videos.</string>
+	<string>闪聊需要你的相机使用权限以便你可以拍摄和分享图片和视频</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Telegram will continuously upload your contacts to its heavily encrypted cloud servers to let you connect with your friends across all your devices.</string>
+	<string>闪聊需要你的通讯录权限</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>You can use Face ID to unlock the app.</string>
+	<string>你可以使用Face ID来解锁闪聊</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>When you choose to share your Live Location with friends in a chat, Telegram needs background access to your location to keep them updated for the duration of the live sharing.</string>
+	<string>当你选择在聊天时向你的朋友实时共享你的位置，闪聊需要后台获取你的实时位置以保持实时更新</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>When you choose to share your Live Location with friends in a chat, Telegram needs background access to your location to keep them updated for the duration of the live sharing. You also need this to send locations from an Apple Watch.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>When you send your location to your friends, Telegram needs access to show them a map.</string>
+	<string>当你向你的朋友发送你的位置时，闪聊需要获取你的地图权限向你的朋友发送地图</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need this so that you can record and share voice messages and videos with sound.</string>
+	<string>闪聊需要您的麦克风权限</string>
 	<key>NSMotionUsageDescription</key>
 	<string>When you send your location to your friends, Telegram needs access to show them a map.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need this so that you can save photos and videos to your photo library.</string>
+	<string>闪聊需要你的相册使用权限以便你可以保存图片和视频</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need this so that you can share photos and videos from your photo library.</string>
+	<string>闪聊需要你的相册权限以便你可以从相册分享图片和视频</string>
 	<key>NSSiriUsageDescription</key>
-	<string>You can use Siri to send messages.</string>
+	<string>你可以使用siri来发送消息</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>org.telegram.conversation</string>

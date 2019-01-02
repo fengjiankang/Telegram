@@ -134,7 +134,6 @@
         [_timer invalidate];
         _timer = nil;
     }
-    
     [ActionStageInstance() actionFailed:self.path reason:errorCode];
 }
 

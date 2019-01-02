@@ -892,6 +892,7 @@
         static int actionIndex = 0;
         _currentActionIndex = actionIndex++;
         _phoneNumber = [NSString stringWithFormat:@"%@%@", [_countryCodeField.text substringFromIndex:1], _phoneField.text];
+//        [ActionStageInstance() requestActor:[NSString stringWithFormat:@"/tg/service/auth/sendCode/(%d)", _currentActionIndex] options:[NSDictionary dictionaryWithObjectsAndKeys:_phoneNumber, @"phoneNumber", @(YES), @"requestSms", nil] watcher:self];
         [ActionStageInstance() requestActor:[NSString stringWithFormat:@"/tg/service/auth/sendCode/(%d)", _currentActionIndex] options:[NSDictionary dictionaryWithObjectsAndKeys:_phoneNumber, @"phoneNumber", nil] watcher:self];
     }
 }
@@ -940,6 +941,7 @@
 
 - (void)actorCompleted:(int)resultCode path:(NSString *)path result:(id)result
 {
+    TGLog(@"loginPhone result is %d, path is %@", resultCode, path);
     if ([path isEqualToString:[NSString stringWithFormat:@"/tg/service/auth/sendCode/(%d)", _currentActionIndex]])
     {
         dispatch_async(dispatch_get_main_queue(), ^

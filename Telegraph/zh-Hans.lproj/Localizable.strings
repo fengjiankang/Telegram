@@ -279,6 +279,10 @@
 "DialogList.Conversations" = "对话";
 "DialogList.Messages" = "消息";
 
+// Finds
+"Finds.TabTitle" = "发现";
+"Finds.Title" = "发现";
+
 // Compose
 "Compose.TokenListPlaceholder" = "您想将哪些联系人加入群组？";
 "Compose.NewMessage" = "新消息";

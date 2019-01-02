@@ -519,6 +519,7 @@ static bool TGContactListSectionComparator(std::shared_ptr<TGContactListSection>
     self.view.backgroundColor = self.presentation.pallete.backgroundColor;
     
     _headerBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.controllerInset.top)];
+    TGLog(@"edgeInsets are %@, %@, %@, %@, %@", NSStringFromUIEdgeInsets(self.controllerInset), NSStringFromUIEdgeInsets(self.controllerCleanInset), NSStringFromUIEdgeInsets(self.controllerScrollInset), NSStringFromUIEdgeInsets(self.controllerSafeAreaInset), NSStringFromUIEdgeInsets(self.parentInsets));
     _headerBackgroundView.backgroundColor = self.presentation.pallete.backgroundColor;
     [self.view addSubview:_headerBackgroundView];
     

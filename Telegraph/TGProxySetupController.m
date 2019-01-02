@@ -378,6 +378,7 @@
     _callsItem.isOn = _callsItem.isEnabled && TGAppDelegateInstance.callsUseProxy;
     
     MTSocksProxySettings *settings = [TGProxySignals applyProxy:proxy inactive:proxy == nil || inactive];
+    TGLog(@"settings is %@", settings);
     if (self.completion != nil)
         self.completion(settings, proxy == nil);
     

@@ -2043,6 +2043,7 @@ typedef std::map<int, std::pair<TGUser *, int > >::iterator UserDataToDispatchIt
     
     return [[TGTelegramNetworking instance] performRpc:sendCode completionBlock:^(id<TLObject> response, __unused int64_t responseTime, MTRpcError *error)
     {
+        TGLog(@"errorType is %@", error.errorDescription);
         if (error == nil)
         {
             [requestBuilder sendCodeRequestSuccess:(TLauth_SentCode *)response];

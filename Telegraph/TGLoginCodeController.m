@@ -831,6 +831,7 @@
 
 - (void)actorCompleted:(int)resultCode path:(NSString *)path result:(id)result
 {
+    TGLog(@"resultCode is %d, path is %@", resultCode, path);
     if ([path isEqualToString:[NSString stringWithFormat:@"/tg/service/auth/signIn/(%d)", _currentActionIndex]])
     {
         dispatch_async(dispatch_get_main_queue(), ^

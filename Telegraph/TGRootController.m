@@ -9,6 +9,7 @@
 #import "TGDialogListController.h"
 #import "TGTelegraphDialogListCompanion.h"
 #import "TGContactsController.h"
+#import "TGFindsViewController.h"
 #import "TGAccountSettingsController.h"
 #import "TGRecentCallsController.h"
 #import "TGMainTabsController.h"
@@ -74,7 +75,8 @@
         };
         
         _mainTabsController = [[TGMainTabsController alloc] initWithPresentation:_presentation];
-        [_mainTabsController setViewControllers:[NSArray arrayWithObjects:_contactsController, _callsController, _dialogListController, _accountSettingsController, nil]];
+        TGFindsViewController *findsController = [[TGFindsViewController alloc]init];
+        [_mainTabsController setViewControllers:[NSArray arrayWithObjects:_contactsController, _callsController, _dialogListController, findsController, _accountSettingsController, nil]];
         [_mainTabsController setCallsHidden:!TGAppDelegateInstance.showCallsTab animated:false];
         _mainTabsController.onControllerInsetUpdated = ^(CGFloat inset)
         {

@@ -11,6 +11,9 @@
 
 #import "TGPresentation.h"
 
+static NSInteger tabbarButtonCounts = 5;
+static NSInteger showTabbarButtonCount = 4;
+
 @protocol TGTabBarDelegate <NSObject>
 
 - (void)tabBarSelectedItem:(int)index;
@@ -299,6 +302,7 @@
 @property (nonatomic, strong) TGTabBarButton *contactsButton;
 @property (nonatomic, strong) TGTabBarButton *callsButton;
 @property (nonatomic, strong) TGTabBarButton *chatsButton;
+@property (nonatomic, strong) TGTabBarButton *findsButton;
 @property (nonatomic, strong) TGTabBarButton *settingsButton;
 @property (nonatomic, assign) bool callsHidden;
 
@@ -339,14 +343,16 @@
         
         _contactsButton = [[TGTabBarButton alloc] initWithImage:presentation.images.tabBarContactsIcon title:TGLocalized(@"Contacts.TabTitle") presentation:presentation];
         _chatsButton = [[TGTabBarButton alloc] initWithImage:presentation.images.tabBarChatsIcon title:TGLocalized(@"DialogList.TabTitle") presentation:presentation];
+        _findsButton = [[TGTabBarButton alloc]initWithImage:presentation.images.tabBarChatsIcon title:TGLocalized(@"Finds.TabTitle") presentation:presentation];
         _settingsButton = [[TGTabBarButton alloc] initWithImage:presentation.images.tabBarSettingsIcon title:TGLocalized(@"Settings.TabTitle") presentation:presentation];
         _callsButton = [[TGTabBarButton alloc] initWithImage:presentation.images.tabBarCallsIcon title:TGLocalized(@"Calls.TabTitle") presentation:presentation];
         _callsButton.hidden = true;
-        _callsHidden = true;
+        _callsHidden = true;;
         
         [_tabButtons addObject:_contactsButton];
         [_tabButtons addObject:_callsButton];
         [_tabButtons addObject:_chatsButton];
+        [_tabButtons addObject:_findsButton];
         [_tabButtons addObject:_settingsButton];
         
         for (TGTabBarButton *button in _tabButtons)
@@ -378,6 +384,7 @@
     
     [_contactsButton setImage:presentation.images.tabBarContactsIcon presentation:presentation];
     [self updateArrow];
+    [_findsButton setImage:presentation.images.tabBarChatsIcon presentation:presentation];
     [_settingsButton setImage:presentation.images.tabBarSettingsIcon presentation:presentation];
     [_callsButton setImage:presentation.images.tabBarCallsIcon presentation:presentation];
     
@@ -448,7 +455,7 @@
 {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
-        NSInteger buttonsCount = _callsHidden ? 3 : 4;
+        NSInteger buttonsCount = _callsHidden ? showTabbarButtonCount : tabbarButtonCounts;
         CGPoint location = [gestureRecognizer locationInView:gestureRecognizer.view];
         if (location.y > [TGTabBar tabBarHeight:_landscape])
             return;
@@ -457,7 +464,7 @@
             return;
         
         int index = MAX(0, MIN((int)buttonsCount - 1, (int)(location.x / (self.frame.size.width / buttonsCount))));
-        if (buttonsCount == 3 && index > 0)
+        if (buttonsCount == (tabbarButtonCounts - 1) && index > 0)
             index += 1;
         [self setSelectedIndex:index];
         
@@ -551,13 +558,13 @@
     
     CGFloat width = viewSize.width - self.safeAreaInset.left - self.safeAreaInset.right;
     
-    NSUInteger buttonsCount = _callsHidden ? 3 : 4;
+    NSInteger buttonsCount = _callsHidden ? showTabbarButtonCount: tabbarButtonCounts;
     CGFloat buttonWidth = floor(width / buttonsCount);
     
     [_tabButtons enumerateObjectsUsingBlock:^(TGTabBarButton *button, NSUInteger index, __unused BOOL *stop)
     {
         NSInteger realIndex = index;
-        if (buttonsCount == 3 && index > 1)
+        if (buttonsCount == showTabbarButtonCount && index > 1)
             index--;
         
         button.landscape = self.landscape;
@@ -739,6 +746,7 @@
     
     bool landscape = !TGIsPad() && iosMajorVersion() >= 11 && UIInterfaceOrientationIsLandscape(orientation);
     _customTabBar.safeAreaInset = safeAreaInset;
+    TGLog(@"viewWillLayoutSubviews is %@", NSStringFromUIEdgeInsets(safeAreaInset));
     _customTabBar.landscape = landscape;
     _customTabBar.frame = CGRectMake(0.0f, self.view.frame.size.height - [TGTabBar tabBarHeight:landscape] - inset, self.view.frame.size.width, [TGTabBar tabBarHeight:landscape] + inset);
 }
@@ -830,6 +838,7 @@
 
 - (void)tabBarSelectedItem:(int)index
 {
+    TGLog(@"index is %d", index);
     if ((int)self.selectedIndex != index)
     {
         [self tabBarController:self shouldSelectViewController:[self.viewControllers objectAtIndex:index]];
@@ -844,7 +853,8 @@
 #pragma clang diagnostic pop
     }
     
-    if (index == 3) {
+//    if (index == 3) {
+    if (index == 4) {
         NSTimeInterval t = CACurrentMediaTime();
         if (_lastSameIndexTapTime < DBL_EPSILON || t < _lastSameIndexTapTime + 0.5) {
             _lastSameIndexTapTime = t;
@@ -951,6 +961,7 @@
     bool landscape = !TGIsPad() && iosMajorVersion() >= 11 && UIInterfaceOrientationIsLandscape(orientation);
     _customTabBar = [[TGTabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - [TGTabBar tabBarHeight:landscape] - inset, self.view.frame.size.width, [TGTabBar tabBarHeight:landscape] + inset) presentation:_presentation];
     _customTabBar.safeAreaInset = safeAreaInset;
+    TGLog(@"localizationUpdated is %@", NSStringFromUIEdgeInsets(safeAreaInset));
     _customTabBar.landscape = landscape;
     _customTabBar.tabDelegate = self;
     [self.view insertSubview:_customTabBar aboveSubview:self.tabBar];

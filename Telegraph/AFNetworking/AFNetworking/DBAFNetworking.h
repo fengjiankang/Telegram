@@ -24,7 +24,7 @@
 #import <Availability.h>
 #import <TargetConditionals.h>
 
-#ifndef _AFNETWORKING_
+#ifndef _DBAFNETWORKING_
     #define _AFNETWORKING_
 
     #import "AFURLRequestSerialization.h"
